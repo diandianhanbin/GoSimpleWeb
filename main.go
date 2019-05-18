@@ -1,8 +1,9 @@
 package main
 
 import (
-	"Recorder/config"
-	"SvBlogApi/router"
+	"SvGoBlogApi/config"
+	"SvGoBlogApi/model"
+	"SvGoBlogApi/router"
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/pflag"
@@ -21,6 +22,9 @@ func main() {
 	if err := config.Init(*cfg); err != nil {
 		panic(err)
 	}
+	model.DB.Init()
+	defer model.DB.Close()
+
 	gin.SetMode(viper.GetString("runmode"))
 	g := gin.New()
 
